@@ -1,0 +1,1050 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orden de Producción y Compra - Hoja Colombiana Sport</title>
+    <style>
+        :root {
+            --primary: #1A237E;
+            --secondary: #1565C0;
+            --accent: #2E7D32;
+            --light-bg: #F5F7FA;
+            --border: #D1D5DB;
+            --text: #1F2937;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #E5E7EB;
+            margin: 0;
+            padding: 20px;
+            color: var(--text);
+        }
+
+        .no-print-bar {
+            max-width: 980px;
+            margin: 0 auto 20px auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .btn {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 13px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #0D47A1;
+        }
+
+        .btn-warning {
+            background-color: #D97706;
+            color: white;
+        }
+
+        .btn-warning:hover {
+            background-color: #B45309;
+        }
+
+        .btn-success {
+            background-color: var(--accent);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #1B5E20;
+        }
+
+        /* Sheet Container */
+        .order-sheet {
+            max-width: 980px;
+            margin: 0 auto;
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Header Layout */
+        .header-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 12px;
+        }
+
+        .header-table td {
+            padding: 4px;
+            vertical-align: middle;
+        }
+
+        .brand-title {
+            color: var(--primary);
+            font-size: 22px;
+            font-weight: 800;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .brand-subtitle {
+            color: #6B7280;
+            font-size: 11px;
+            margin-top: 2px;
+        }
+
+        .doc-title-box {
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 8px;
+            border-radius: 6px;
+        }
+
+        .doc-title-box h2 {
+            margin: 0;
+            font-size: 16px;
+            text-transform: uppercase;
+        }
+
+        /* Info Grid */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            background: var(--light-bg);
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            margin-bottom: 12px;
+        }
+
+        .field-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .field-group label {
+            font-size: 10px;
+            font-weight: bold;
+            color: #4B5563;
+            text-transform: uppercase;
+            margin-bottom: 2px;
+        }
+
+        .field-group input, .field-group select {
+            padding: 5px 6px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 12px;
+            background: white;
+        }
+
+        /* Main Section Grid */
+        .main-content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 12px;
+        }
+
+        .section-box {
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+
+        .section-header {
+            background: var(--secondary);
+            color: white;
+            padding: 6px 10px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-header.header-dama {
+            background: #AD1457;
+        }
+
+        .section-header.header-ninos {
+            background: #E65100;
+        }
+
+        /* Design Preview Box */
+        .design-preview-container {
+            padding: 8px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 190px;
+            background: #FAFAFA;
+            position: relative;
+        }
+
+        .preview-image {
+            max-width: 100%;
+            max-height: 180px;
+            object-fit: contain;
+            border-radius: 4px;
+            display: none;
+            cursor: pointer;
+        }
+
+        .placeholder-text {
+            color: #9CA3AF;
+            font-size: 11px;
+            margin-bottom: 6px;
+        }
+
+        .file-upload-btn {
+            background: #E0E7FF;
+            color: #3730A3;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+            border: 1px dashed #6366F1;
+            display: inline-block;
+        }
+
+        .file-upload-btn:hover {
+            background: #C7D2FE;
+        }
+
+        #imageInput {
+            display: none;
+        }
+
+        /* Spec Table */
+        .spec-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .spec-table th, .spec-table td {
+            padding: 5px 8px;
+            border-bottom: 1px solid var(--border);
+            font-size: 11px;
+            text-align: left;
+        }
+
+        .spec-table th {
+            background: var(--light-bg);
+            color: #374151;
+            width: 35%;
+        }
+
+        .spec-table input, .spec-table select {
+            width: 100%;
+            padding: 3px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 11px;
+            background: white;
+        }
+
+        .spec-table select {
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .kit-info-badge {
+            background: #EFF6FF;
+            border-left: 3px solid var(--secondary);
+            padding: 4px 6px;
+            font-size: 10px;
+            color: #1E40AF;
+            margin-top: 2px;
+            line-height: 1.2;
+        }
+
+        /* CMYK Inputs Grid */
+        .cmyk-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 4px;
+            margin-top: 2px;
+        }
+
+        .cmyk-input-group {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .cmyk-input-group label {
+            font-size: 8px;
+            font-weight: bold;
+            color: #6B7280;
+            margin-bottom: 1px;
+        }
+
+        .cmyk-input-group input {
+            text-align: center;
+            font-weight: bold;
+            font-size: 11px;
+        }
+
+        /* Sizes Table */
+        .sizes-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .sizes-table th, .sizes-table td {
+            border: 1px solid var(--border);
+            padding: 5px;
+            text-align: center;
+            font-size: 11px;
+        }
+
+        .sizes-table th {
+            background: var(--light-bg);
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .sizes-table input {
+            width: 100%;
+            text-align: center;
+            border: 1px solid #E5E7EB;
+            border-radius: 4px;
+            padding: 2px;
+            font-size: 11px;
+            font-weight: bold;
+            color: var(--primary);
+            background: #FAFAFA;
+        }
+
+        .sizes-table input:focus {
+            border-color: var(--secondary);
+            background: #F0F7FF;
+            outline: none;
+        }
+
+        /* Personalization Tables */
+        .players-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .players-table th, .players-table td {
+            border: 1px solid var(--border);
+            padding: 3px 5px;
+            font-size: 11px;
+            text-align: center;
+        }
+
+        .players-table th {
+            background: #E0F2FF;
+            color: var(--primary);
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 10px;
+        }
+
+        .players-table-dama th {
+            background: #FCE4EC;
+            color: #880E4F;
+        }
+
+        .players-table-ninos th {
+            background: #FFF3E0;
+            color: #E65100;
+        }
+
+        .players-table input, .players-table select {
+            width: 100%;
+            padding: 3px;
+            border: 1px solid #E5E7EB;
+            border-radius: 4px;
+            font-size: 11px;
+        }
+
+        .player-name {
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .player-num {
+            font-weight: bold;
+            color: var(--primary);
+            text-align: center;
+        }
+
+        /* Notes Box */
+        .notes-box {
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 6px 8px;
+            margin-bottom: 10px;
+            background: #FFFBEB;
+        }
+
+        .notes-box label {
+            font-size: 10px;
+            font-weight: bold;
+            color: #92400E;
+            display: block;
+            margin-bottom: 2px;
+            text-transform: uppercase;
+        }
+
+        .notes-box textarea {
+            width: 100%;
+            height: 35px;
+            border: 1px solid #FCD34D;
+            border-radius: 4px;
+            padding: 4px;
+            font-size: 11px;
+            background: white;
+            resize: vertical;
+        }
+
+        /* Signatures */
+        .signatures-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .signature-line {
+            border-top: 1px solid #9CA3AF;
+            padding-top: 3px;
+            font-size: 10px;
+            font-weight: bold;
+            color: #4B5563;
+            text-transform: uppercase;
+        }
+
+        /* Print Styles - Forzar a una sola página */
+        @media print {
+            @page {
+                size: letter;
+                margin: 5mm;
+            }
+
+            body {
+                background: white;
+                padding: 0;
+                font-size: 10px;
+            }
+
+            .no-print-bar, .file-upload-btn {
+                display: none !important;
+            }
+
+            .order-sheet {
+                box-shadow: none;
+                padding: 0;
+                max-width: 100%;
+                width: 100%;
+            }
+
+            .field-group input, .spec-table input, .sizes-table input, .players-table input, .players-table select, .notes-box textarea, select {
+                border: none !important;
+                background: transparent !important;
+                appearance: none;
+                -webkit-appearance: none;
+                padding: 1px !important;
+            }
+
+            .notes-box {
+                background: white !important;
+                border: 1px solid #D1D5DB !important;
+                margin-bottom: 4px !important;
+            }
+
+            .section-box {
+                margin-bottom: 4px !important;
+                page-break-inside: avoid;
+            }
+
+            .main-content-grid {
+                margin-bottom: 4px !important;
+            }
+
+            .signatures-grid {
+                margin-top: 6px !important;
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Bar de Botones Superiores -->
+    <div class="no-print-bar">
+        <div>
+            <strong>Hoja Colombiana Sport</strong> — Generador de Ordenes de Producción
+        </div>
+        <div style="display: flex; gap: 8px;">
+            <button class="btn btn-warning" onclick="guardarArchivoOrden()">
+                💾 Guardar Orden
+            </button>
+            <button class="btn btn-primary" onclick="imprimirOrden()">
+                🖨️ Imprimir / PDF
+            </button>
+            <button class="btn btn-success" onclick="limpiarFormulario()">
+                🔄 Nueva Orden
+            </button>
+        </div>
+    </div>
+
+    <!-- Formato de Orden de Producción -->
+    <div class="order-sheet">
+        
+        <!-- Encabezado -->
+        <table class="header-table">
+            <tr>
+                <td style="width: 60%;">
+                    <h1 class="brand-title">Hoja Colombiana Sport</h1>
+                    <div class="brand-subtitle">Confección y Personalización de Uniformes Deportivos</div>
+                    <div class="brand-subtitle"> | Tel: +52 777 363 5720</div>
+                </td>
+                <td style="width: 40%;">
+                    <div class="doc-title-box">
+                        <h2>Orden de Producción</h2>
+                        <div style="font-size: 11px; margin-top: 2px;">OP N°: <span id="numOrdenDisplay" style="font-weight:bold; font-size:13px;">OP-2026-001</span></div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Datos Generales -->
+        <div class="info-grid">
+            <div class="field-group">
+                <label>Cliente / Equipo</label>
+                <input type="text" value="Deportivo Jaguares FC">
+            </div>
+            <div class="field-group">
+                <label>Fecha Emisión</label>
+                <input type="date" id="fechaEmision">
+            </div>
+            <div class="field-group">
+                <label>Fecha Entrega</label>
+                <input type="date" id="fechaEntrega">
+            </div>
+            <div class="field-group">
+                <label>Responsable OP</label>
+                <input type="text" value="Diseñador Principal">
+            </div>
+        </div>
+
+        <!-- Sección Central: Imagen del Diseño + Especificaciones Técnicas y CMYK -->
+        <div class="main-content-grid">
+            
+            <!-- Columna Izquierda: Cargar Imagen del Diseño -->
+            <div class="section-box" style="margin-bottom: 0; display: flex; flex-direction: column;">
+                <div class="section-header">
+                    🖼️ Diseño Aprobado (Muestra Visual)
+                </div>
+                <div class="design-preview-container">
+                    <img id="previewImg" class="preview-image" alt="Vista previa del uniforme" onclick="document.getElementById('imageInput').click()">
+                    <div id="placeholderContainer">
+                        <div class="placeholder-text">Carga aquí la imagen o render del uniforme</div>
+                        <label for="imageInput" class="file-upload-btn">
+                            📁 Seleccionar Imagen
+                        </label>
+                        <input type="file" id="imageInput" accept="image/*" onchange="cargarImagen(event)">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Columna Derecha: Especificaciones de Fabricación y CMYK -->
+            <div class="section-box" style="margin-bottom: 0;">
+                <div class="section-header">
+                    ⚙️ Especificaciones y Color
+                </div>
+                <table class="spec-table">
+                    <tr>
+                        <th>Gama / Kit</th>
+                        <td>
+                            <select id="selectKit" onchange="actualizarDescripcionKit()">
+                                <option value="ELEMENTAL">ELEMENTAL</option>
+                                <option value="KIT AG">KIT AG</option>
+                                <option value="KIT PRO" selected>KIT PRO</option>
+                            </select>
+                            <div id="kitDescBadge" class="kit-info-badge">
+                                <strong>KIT PRO:</strong> Cuello cárdigan y escudo con relieve.
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Prenda</th>
+                        <td><input type="text" value="Camiseta + Short + Calcetas"></td>
+                    </tr>
+                    <tr>
+                        <th>Color Base</th>
+                        <td><input type="text" value="Azul Rey / Blanco"></td>
+                    </tr>
+                    <tr>
+                        <th>Perfil CMYK</th>
+                        <td>
+                            <div class="cmyk-grid">
+                                <div class="cmyk-input-group">
+                                    <label>C</label>
+                                    <input type="number" value="100" min="0" max="100">
+                                </div>
+                                <div class="cmyk-input-group">
+                                    <label>M</label>
+                                    <input type="number" value="80" min="0" max="100">
+                                </div>
+                                <div class="cmyk-input-group">
+                                    <label>Y</label>
+                                    <input type="number" value="0" min="0" max="100">
+                                </div>
+                                <div class="cmyk-input-group">
+                                    <label>K</label>
+                                    <input type="number" value="10" min="0" max="100">
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+
+        <!-- Tabla de Desglose por Tallas -->
+        <div class="section-box">
+            <div class="section-header">
+                📊 Desglose de Cantidades por Talla y Categoría
+            </div>
+            <table class="sizes-table">
+                <thead>
+                    <tr>
+                        <th style="width: 18%; text-align: left; padding-left: 8px;">Categoría</th>
+                        <th style="width: 10%;">Talla 8</th>
+                        <th style="width: 10%;">Talla 10</th>
+                        <th style="width: 10%;">Talla 12</th>
+                        <th style="width: 8%;">S</th>
+                        <th style="width: 8%;">M</th>
+                        <th style="width: 8%;">L</th>
+                        <th style="width: 8%;">XL</th>
+                        <th style="width: 8%;">XXL</th>
+                        <th style="width: 12%; background: var(--secondary); color: white;">SUBTOTAL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Fila Niño -->
+                    <tr>
+                        <td style="text-align: left; font-weight: bold; color: #E65100; padding-left: 8px;">
+                            👦 Niños
+                        </td>
+                        <td><input type="number" class="qty-input" data-genero="Nino" data-talla="8" value="1" min="0" oninput="actualizarListaJugadores()"></td>
+                        <td><input type="number" class="qty-input" data-genero="Nino" data-talla="10" value="1" min="0" oninput="actualizarListaJugadores()"></td>
+                        <td><input type="number" class="qty-input" data-genero="Nino" data-talla="12" value="0" min="0" oninput="actualizarListaJugadores()"></td>
+                        <td><input type="number" class="qty-input" data-genero="Nino" data-talla="S" value="0" min="0" oninput="actualizarListaJugadores()"></td>
+                        <td><input type="number" class="qty-input" data-genero="Nino" data-talla="M" value="0" min="0" oninput="actualizarListaJugadores()"></td>
+                        <td><input type="number" class="qty-input" data-genero="Nino" data-talla="L" value="0" min="0" oninput="actualizarListaJugadores()"></td>
+                        <td><input type="number" class="qty-input" data-genero="Nino" data-talla="XL" value="0" min="0" oninput="actualizarListaJugadores()"></td>
+                        <td><input type="number" class="qty-input" data-genero="Nino" data-talla="XXL" value="0" min="0" oninput="actualizarListaJugadores()"></td>
+                        <td style="background: #FFF3E0;"><strong id="totalNino" style="font-size: 13px; color: #E65100;">2</strong></td>
+                    </tr>
+                    <!-- Fila Caballero -->
+                    <tr>
+                        <td style="text-align: left; font-weight: bold; color: var(--primary); padding-left: 8px;">
+                            👨 Caballero
+                        </td>
+                        <td><input type="number" class="qty-input" data-genero="Hombre" data-talla="8" value="0" min="0" oninput="actualizarListaJugadores()"></td>
+                        <td><input type="number" class="qty-input" data-genero="Hombre" data-talla="10" value="0" min="0" oninput="actualizarListaJugadores()"></td>
+                        <td><input type="number" class="qty-input" data-genero="Hombre" data-talla="12" value="0" min="0" oninput="actualizarListaJugadores()"></td>
+                        <td><input type="number" class="qty-input" data-genero="Hombre" data-talla="S" value="2" min="0" oninput="actualizarListaJugadores()"></td>
+                        <td><input type="number" class="qty-input" data-genero="Hombre" data-talla="M" value="3" min="0" oninput="actualizarListaJugadores()"></td>
+                        <td><input type="number" class="qty-input" data-genero="Hombre" data-talla="L" value="1" min="0" oninput="actualizarListaJugadores()"></td>
+                        <td><input type="number" class="qty-input" data-genero="Hombre" data-talla="XL" value="1" min="0" oninput="actualizarListaJugadores()"></td>
+                        <td><input type="number" class="qty-input" data-genero="Hombre" data-talla="XXL" value="0" min="0" oninput="actualizarListaJugadores()"></td>
+                        <td style="background: #F0F7FF;"><strong id="totalHombre" style="font-size: 13px; color: var(--primary);">7</strong></td>
+                    </tr>
+                    <!-- Fila Dama -->
+                    <tr>
+                        <td style="text-align: left; font-weight: bold; color: #C2185B; padding-left: 8px;">
+                            👩 Dama
+                        </td>
+                        <td><input type="number" class="qty-input" data-genero="Mujer" data-talla="8" value="0" min="0" oninput="actualizarListaJugadores()"></td>
+                        <td><input type="number" class="qty-input" data-genero="Mujer" data-talla="10" value="0" min="0" oninput="actualizarListaJugadores()"></td>
+                        <td><input type="number" class="qty-input" data-genero="Mujer" data-talla="12" value="0" min="0" oninput="actualizarListaJugadores()"></td>
+                        <td><input type="number" class="qty-input" data-genero="Mujer" data-talla="S" value="0" min="0" oninput="actualizarListaJugadores()"></td>
+                        <td><input type="number" class="qty-input" data-genero="Mujer" data-talla="M" value="1" min="0" oninput="actualizarListaJugadores()"></td>
+                        <td><input type="number" class="qty-input" data-genero="Mujer" data-talla="L" value="0" min="0" oninput="actualizarListaJugadores()"></td>
+                        <td><input type="number" class="qty-input" data-genero="Mujer" data-talla="XL" value="0" min="0" oninput="actualizarListaJugadores()"></td>
+                        <td><input type="number" class="qty-input" data-genero="Mujer" data-talla="XXL" value="0" min="0" oninput="actualizarListaJugadores()"></td>
+                        <td style="background: #FCE4EC;"><strong id="totalMujer" style="font-size: 13px; color: #C2185B;">1</strong></td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr style="background: #E0F2FE; font-weight: bold;">
+                        <td style="text-align: left; padding-left: 8px; color: var(--primary);">TOTAL:</td>
+                        <td id="subtotal8" style="color: var(--primary);">1</td>
+                        <td id="subtotal10" style="color: var(--primary);">1</td>
+                        <td id="subtotal12" style="color: var(--primary);">0</td>
+                        <td id="subtotalS" style="color: var(--primary);">2</td>
+                        <td id="subtotalM" style="color: var(--primary);">4</td>
+                        <td id="subtotalL" style="color: var(--primary);">1</td>
+                        <td id="subtotalXL" style="color: var(--primary);">1</td>
+                        <td id="subtotalXXL" style="color: var(--primary);">0</td>
+                        <td style="background: var(--primary); color: white;"><strong id="totalCantidad" style="font-size: 14px;">10</strong></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <!-- TABLA 1: Personalización Niños -->
+        <div id="boxPersonalizacionNino" class="section-box">
+            <div class="section-header header-ninos">
+                <span>👦 Personalización - Niños</span>
+                <span id="badgeTotalNino" style="background: rgba(255,255,255,0.2); padding: 2px 6px; border-radius: 4px; font-size: 10px;">2 prendas</span>
+            </div>
+            <table class="players-table">
+                <thead>
+                    <tr>
+                        <th style="width: 5%;">#</th>
+                        <th style="width: 15%;">Talla</th>
+                        <th style="width: 45%;">Nombre en la Prenda</th>
+                        <th style="width: 15%;">Número</th>
+                        <th style="width: 20%;">Observaciones</th>
+                    </tr>
+                </thead>
+                <tbody id="jugadoresNinoTableBody"></tbody>
+            </table>
+        </div>
+
+        <!-- TABLA 2: Personalización Caballero -->
+        <div id="boxPersonalizacionHombre" class="section-box">
+            <div class="section-header">
+                <span>👨 Personalización - Caballero (Hombre)</span>
+                <span id="badgeTotalHombre" style="background: rgba(255,255,255,0.2); padding: 2px 6px; border-radius: 4px; font-size: 10px;">7 prendas</span>
+            </div>
+            <table class="players-table">
+                <thead>
+                    <tr>
+                        <th style="width: 5%;">#</th>
+                        <th style="width: 15%;">Talla</th>
+                        <th style="width: 45%;">Nombre en la Prenda</th>
+                        <th style="width: 15%;">Número</th>
+                        <th style="width: 20%;">Observaciones</th>
+                    </tr>
+                </thead>
+                <tbody id="jugadoresHombreTableBody"></tbody>
+            </table>
+        </div>
+
+        <!-- TABLA 3: Personalización Dama -->
+        <div id="boxPersonalizacionMujer" class="section-box">
+            <div class="section-header header-dama">
+                <span>👩 Personalización - Dama (Mujer)</span>
+                <span id="badgeTotalMujer" style="background: rgba(255,255,255,0.2); padding: 2px 6px; border-radius: 4px; font-size: 10px;">1 prenda</span>
+            </div>
+            <table class="players-table players-table-dama">
+                <thead>
+                    <tr>
+                        <th style="width: 5%;">#</th>
+                        <th style="width: 15%;">Talla</th>
+                        <th style="width: 45%;">Nombre en la Prenda</th>
+                        <th style="width: 15%;">Número</th>
+                        <th style="width: 20%;">Observaciones</th>
+                    </tr>
+                </thead>
+                <tbody id="jugadoresMujerTableBody"></tbody>
+            </table>
+        </div>
+
+        <!-- Observaciones para el Taller -->
+        <div class="notes-box">
+            <label>📌 Indicaciones Especiales para Producción</label>
+            <textarea placeholder="Ejemplo: Reforzar costura de hombros...">Verificar ortografía de los nombres antes del estampado. Respetar los patrones de corte.</textarea>
+        </div>
+
+        <!-- Firmas y Autorizaciones -->
+        <div class="signatures-grid">
+            <div>
+                <div style="height: 25px;"></div>
+                <div class="signature-line">Elaborado por (Diseño)</div>
+            </div>
+            <div>
+                <div style="height: 25px;"></div>
+                <div class="signature-line">Aprobado por (Cliente)</div>
+            </div>
+            <div>
+                <div style="height: 25px;"></div>
+                <div class="signature-line">Recibido (Producción)</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Scripts de Interacción -->
+    <script>
+        document.getElementById('fechaEmision').valueAsDate = new Date();
+        const entrega = new Date();
+        entrega.setDate(entrega.getDate() + 8);
+        document.getElementById('fechaEntrega').valueAsDate = entrega;
+
+        function inicializarNumeroOrden() {
+            let ultimoNumero = localStorage.getItem('hoja_colombiana_last_op');
+            let siguienteNum = 1;
+            if (ultimoNumero) {
+                siguienteNum = parseInt(ultimoNumero) + 1;
+            }
+            const formattedNum = String(siguienteNum).padStart(3, '0');
+            document.getElementById('numOrdenDisplay').innerText = `OP-2026-${formattedNum}`;
+            return siguienteNum;
+        }
+
+        let numeroOrdenActual = inicializarNumeroOrden();
+
+        // FUNCIÓN SEPARADA: Guarda el archivo directamente en la carpeta de descargas de tu PC
+        function guardarArchivoOrden() {
+            const numeroOP = document.getElementById('numOrdenDisplay').innerText;
+            const nombreArchivo = `Orden_Produccion_${numeroOP}.html`;
+
+            // Clonar el DOM actual para limpiar los inputs editables y convertirlos en texto estático si se desea, 
+            // o guardar el estado actual con los valores escritos por el usuario:
+            const htmlContent = document.documentElement.outerHTML;
+            
+            const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = nombreArchivo;
+            document.body.appendChild(a);
+            a.click();
+            
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            // Avanzar automáticamente el consecutivo de la orden tras guardarla con éxito
+            localStorage.setItem('hoja_colombiana_last_op', numeroOrdenActual);
+            alert(`¡Orden ${numeroOP} guardada exitosamente como archivo en tu ordenador!`);
+        }
+
+        // FUNCIÓN SEPARADA: Solo imprime o abre el diálogo PDF del navegador
+        function imprimirOrden() {
+            window.print();
+        }
+
+        function cargarImagen(event) {
+            const reader = new FileReader();
+            reader.onload = function() {
+                const previewImg = document.getElementById('previewImg');
+                const placeholder = document.getElementById('placeholderContainer');
+                previewImg.src = reader.result;
+                previewImg.style.display = 'block';
+                placeholder.style.display = 'none';
+            };
+            if(event.target.files[0]) {
+                reader.readAsDataURL(event.target.files[0]);
+            }
+        }
+
+        function actualizarDescripcionKit() {
+            const select = document.getElementById('selectKit');
+            const badge = document.getElementById('kitDescBadge');
+            const valor = select.value;
+
+            if (valor === 'ELEMENTAL') {
+                badge.innerHTML = '<strong>ELEMENTAL:</strong> Sublimado sencillo. Short, playera y calcetas.';
+            } else if (valor === 'KIT AG') {
+                badge.innerHTML = '<strong>KIT AG:</strong> Sublimación HD y acabados reforzados.';
+            } else if (valor === 'KIT PRO') {
+                badge.innerHTML = '<strong>KIT PRO:</strong> Cuello cárdigan y escudo con relieve.';
+            }
+        }
+
+        const datosEjemploNino = [
+            { talla: '8', nombre: 'LENGUITAS', numero: '20', obs: 'Infantil' },
+            { talla: '10', nombre: 'MATI', numero: '21', obs: 'Infantil' }
+        ];
+
+        const datosEjemploHombre = [
+            { talla: 'S', nombre: 'CARLOS', numero: '1', obs: 'Portero' },
+            { talla: 'S', nombre: 'JUAN', numero: '4', obs: 'Defensa' },
+            { talla: 'M', nombre: 'MENDOZA', numero: '8', obs: '' },
+            { talla: 'M', nombre: 'GÓMEZ', numero: '10', obs: 'Capitán' },
+            { talla: 'M', nombre: 'LÓPEZ', numero: '11', obs: '' },
+            { talla: 'L', nombre: 'RODRÍGUEZ', numero: '9', obs: 'Delantero' },
+            { talla: 'XL', nombre: 'SILVA', numero: '14', obs: '' }
+        ];
+
+        const datosEjemploMujer = [
+            { talla: 'M', nombre: 'SOPHIA', numero: '7', obs: 'Corte Dama' }
+        ];
+
+        function actualizarListaJugadores(cargarEjemplo = false) {
+            const tableBodyNino = document.getElementById('jugadoresNinoTableBody');
+            const tableBodyHombre = document.getElementById('jugadoresHombreTableBody');
+            const tableBodyMujer = document.getElementById('jugadoresMujerTableBody');
+
+            const boxNino = document.getElementById('boxPersonalizacionNino');
+            const boxHombre = document.getElementById('boxPersonalizacionHombre');
+            const boxMujer = document.getElementById('boxPersonalizacionMujer');
+
+            const datosNinoExistentes = [];
+            tableBodyNino.querySelectorAll('tr').forEach(row => {
+                const inputs = row.querySelectorAll('input, select');
+                if (inputs.length >= 4) {
+                    datosNinoExistentes.push({ talla: inputs[0].value, nombre: inputs[1].value, numero: inputs[2].value, obs: inputs[3].value });
+                }
+            });
+
+            const datosHombreExistentes = [];
+            tableBodyHombre.querySelectorAll('tr').forEach(row => {
+                const inputs = row.querySelectorAll('input, select');
+                if (inputs.length >= 4) {
+                    datosHombreExistentes.push({ talla: inputs[0].value, nombre: inputs[1].value, numero: inputs[2].value, obs: inputs[3].value });
+                }
+            });
+
+            const datosMujerExistentes = [];
+            tableBodyMujer.querySelectorAll('tr').forEach(row => {
+                const inputs = row.querySelectorAll('input, select');
+                if (inputs.length >= 4) {
+                    datosMujerExistentes.push({ talla: inputs[0].value, nombre: inputs[1].value, numero: inputs[2].value, obs: inputs[3].value });
+                }
+            });
+
+            const inputsCantidad = document.querySelectorAll('.qty-input');
+            const listaNino = [], listaHombre = [], listaMujer = [];
+            let totalNino = 0, totalHombre = 0, totalMujer = 0;
+            const subtotalesTalla = { '8': 0, '10': 0, '12': 0, 'S': 0, 'M': 0, 'L': 0, 'XL': 0, 'XXL': 0 };
+
+            inputsCantidad.forEach(input => {
+                const qty = parseInt(input.value) || 0;
+                const genero = input.getAttribute('data-genero');
+                const talla = input.getAttribute('data-talla');
+
+                if (genero === 'Nino') {
+                    totalNino += qty;
+                    for (let i = 0; i < qty; i++) listaNino.push(talla);
+                } else if (genero === 'Hombre') {
+                    totalHombre += qty;
+                    for (let i = 0; i < qty; i++) listaHombre.push(talla);
+                } else if (genero === 'Mujer') {
+                    totalMujer += qty;
+                    for (let i = 0; i < qty; i++) listaMujer.push(talla);
+                }
+                subtotalesTalla[talla] += qty;
+            });
+
+            const totalGeneral = totalNino + totalHombre + totalMujer;
+
+            document.getElementById('totalNino').innerText = totalNino;
+            document.getElementById('totalHombre').innerText = totalHombre;
+            document.getElementById('totalMujer').innerText = totalMujer;
+            document.getElementById('badgeTotalNino').innerText = `${totalNino} prendas`;
+            document.getElementById('badgeTotalHombre').innerText = `${totalHombre} prendas`;
+            document.getElementById('badgeTotalMujer').innerText = `${totalMujer} prendas`;
+
+            document.getElementById('subtotal8').innerText = subtotalesTalla['8'];
+            document.getElementById('subtotal10').innerText = subtotalesTalla['10'];
+            document.getElementById('subtotal12').innerText = subtotalesTalla['12'];
+            document.getElementById('subtotalS').innerText = subtotalesTalla['S'];
+            document.getElementById('subtotalM').innerText = subtotalesTalla['M'];
+            document.getElementById('subtotalL').innerText = subtotalesTalla['L'];
+            document.getElementById('subtotalXL').innerText = subtotalesTalla['XL'];
+            document.getElementById('subtotalXXL').innerText = subtotalesTalla['XXL'];
+            document.getElementById('totalCantidad').innerText = totalGeneral;
+
+            boxNino.style.display = totalNino > 0 ? 'block' : 'none';
+            boxHombre.style.display = totalHombre > 0 ? 'block' : 'none';
+            boxMujer.style.display = totalMujer > 0 ? 'block' : 'none';
+
+            function renderizarTabla(lista, tbody, datosExistentes, ejemplo) {
+                tbody.innerHTML = '';
+                if (lista.length > 0) {
+                    lista.forEach((tallaDefault, index) => {
+                        const tr = document.createElement('tr');
+                        let itemData = {};
+                        if (cargarEjemplo && ejemplo[index]) {
+                            itemData = ejemplo[index];
+                        } else if (datosExistentes[index]) {
+                            itemData = datosExistentes[index];
+                        }
+
+                        const tallaFinal = itemData.talla || tallaDefault;
+                        const nombreFinal = itemData.nombre || '';
+                        const numeroFinal = itemData.numero || '';
+                        const obsFinal = itemData.obs || '';
+
+                        tr.innerHTML = `
+                            <td style="font-weight:bold; color:#4B5563;">${index + 1}</td>
+                            <td>
+                                <select class="talla-select">
+                                    <option value="8" ${tallaFinal === '8' ? 'selected' : ''}>8</option>
+                                    <option value="10" ${tallaFinal === '10' ? 'selected' : ''}>10</option>
+                                    <option value="12" ${tallaFinal === '12' ? 'selected' : ''}>12</option>
+                                    <option value="S" ${tallaFinal === 'S' ? 'selected' : ''}>S</option>
+                                    <option value="M" ${tallaFinal === 'M' ? 'selected' : ''}>M</option>
+                                    <option value="L" ${tallaFinal === 'L' ? 'selected' : ''}>L</option>
+                                    <option value="XL" ${tallaFinal === 'XL' ? 'selected' : ''}>XL</option>
+                                    <option value="XXL" ${tallaFinal === 'XXL' ? 'selected' : ''}>XXL</option>
+                                </select>
+                            </td>
+                            <td><input type="text" class="player-name" placeholder="Nombre" value="${nombreFinal}"></td>
+                            <td><input type="text" class="player-num" placeholder="N°" value="${numeroFinal}"></td>
+                            <td><input type="text" class="player-obs" placeholder="Obs" value="${obsFinal}"></td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                }
+            }
+
+            renderizarTabla(listaNino, tableBodyNino, datosNinoExistentes, datosEjemploNino);
+            renderizarTabla(listaHombre, tableBodyHombre, datosHombreExistentes, datosEjemploHombre);
+            renderizarTabla(listaMujer, tableBodyMujer, datosMujerExistentes, datosEjemploMujer);
+        }
+
+        function limpiarFormulario() {
+            if(confirm('¿Deseas limpiar este formulario para crear una nueva Orden de Producción?')) {
+                document.getElementById('previewImg').style.display = 'none';
+                document.getElementById('placeholderContainer').style.display = 'block';
+                document.getElementById('imageInput').value = '';
+                document.querySelectorAll('.qty-input').forEach(input => input.value = 0);
+                actualizarListaJugadores();
+            }
+        }
+
+        window.onload = function() {
+            actualizarDescripcionKit();
+            actualizarListaJugadores(true);
+        };
+    </script>
+</body>
+</html>
+
+```
